@@ -13,7 +13,9 @@ end
 get '/news-list.json' do
   newsList = NewsList.new
   newsList.load
-  items = newsList.search.map{|x| {"key" => x["key"], "title" => x["value"].title}}
+  items = newsList.search
+		.map{|x| {"key" => x["key"], "title" => x["value"].title} }
+		.reverse
 
   JSON.generate(items)
 end

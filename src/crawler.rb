@@ -4,21 +4,23 @@ require './models.rb'
 class Crawler
   def initialize
     @newsList = NewsList.new
+    @newsList.load
     @agent = Mechanize.new
     @agent.follow_meta_refresh = true
     @agent.user_agent_alias = 'Windows IE 9'
   end
 
-  def crawl
-    urls = [
-      "http://mashable.com/2015/12/10/google-photos-shared-albums/#rmnTre_AZEqH",
-      "http://mashable.com/2015/12/12/coolest-battery-chargers/#CLI2CVZSf8qS",
-      "http://mashable.com/2015/12/12/apple-watch-walmart/#v6RXvh5gZZqB",
-    ]
+  def get_urls
+    html = @agent.get("http://feeds.mashable.com/Mashable")
+    html.search('link').map{|x| x.text}[2..4]
+  end
 
+  def crawl
+    urls = get_urls
     urls.each do |url|
       html = @agent.get(url)
       title = html.title
+puts title
       contents = html.at("section.article-content").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
       @newsList.add url, News.new(title, contents)
     end
