@@ -23,8 +23,5 @@ def crawl
 	#puts JSON.generate(data)
 end
 
-#crawl
-p @newsList
-puts "load"
-@newsList.load
+crawl
 p @newsList

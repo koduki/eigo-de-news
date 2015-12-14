@@ -4,9 +4,16 @@ class News
     @title = title
     @contents = contents
   end
+  
+  def to_json
+    require 'json'
+    json = {"title" => @title, "contents" => @contents}
+    JSON.generate(json)
+  end
 end
 
 class NewsList
+  attr_accessor :data
   def initialize
     @data = {}
   end
