@@ -6,7 +6,7 @@ class News
   end
 end
 
-class NewList
+class NewsList
   def initialize
     @data = {}
   end
@@ -17,5 +17,21 @@ class NewList
 
   def get(url)
     @data[url]
+  end
+
+  def store
+    require "pstore"
+    db = PStore.new("data.db")    
+    db.transaction do
+      db["data"] = @data
+    end
+  end
+
+  def load
+    require "pstore"
+    db = PStore.new("data.db")    
+    db.transaction do
+      @data = db["data"]
+    end
   end
 end
