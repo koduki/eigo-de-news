@@ -19,11 +19,17 @@ class NewsList
   end
 
   def add(url, news)
-    @data[url] = news
+    require 'digest/md5'
+    key = Digest::MD5.hexdigest url
+    @data[key] = news
   end
 
-  def get(url)
-    @data[url]
+  def get(key)
+    @data[key]
+  end
+
+  def search
+    @data.map{|x| {"key" => x.first, "value" => x.last}}
   end
 
   def store

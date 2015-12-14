@@ -1,10 +1,19 @@
 require 'sinatra'
+require 'json'
 require './models.rb'
 
-get '/contents.json' do
+get '/contents/:key' do
   newsList = NewsList.new
   newsList.load
-  x = newsList.data["http://mashable.com/2015/12/10/google-photos-shared-albums/#rmnTre_AZEqH"]
+  x = newsList.data[params['key']]
   p x
   x.to_json
+end
+
+get '/news-list.json' do
+  newsList = NewsList.new
+  newsList.load
+  items = newsList.search.map{|x| {"key" => x["key"], "title" => x["value"].title}}
+
+  JSON.generate(items)
 end

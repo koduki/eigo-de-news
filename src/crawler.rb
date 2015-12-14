@@ -10,13 +10,19 @@ class Crawler
   end
 
   def crawl
-    url = "http://mashable.com/2015/12/10/google-photos-shared-albums/#rmnTre_AZEqH"
-    html = @agent.get(url)
+    urls = [
+      "http://mashable.com/2015/12/10/google-photos-shared-albums/#rmnTre_AZEqH",
+      "http://mashable.com/2015/12/12/coolest-battery-chargers/#CLI2CVZSf8qS",
+      "http://mashable.com/2015/12/12/apple-watch-walmart/#v6RXvh5gZZqB",
+    ]
 
-    title = html.title
-    contents = html.at("section.article-content").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
+    urls.each do |url|
+      html = @agent.get(url)
+      title = html.title
+      contents = html.at("section.article-content").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
+      @newsList.add url, News.new(title, contents)
+    end
 
-    @newsList.add url, News.new(title, contents)
     @newsList.store
   end
 end

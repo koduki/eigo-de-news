@@ -11,38 +11,15 @@
 	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script>
 	$(function(){
-		var wpm = 150;
-		var rate = wpm / 60 / 10;
-		var index = 0;
-		var progress = 0;
-		var words = [];
-
-		var vanishWord = function(pg, color){
-			if(pg >= 0) {
-				$(words[pg]).css('color', color);
-				$(words[pg + 1]).css('color', color);
-			}
-		}
-		var vanishWords = function(){
-			if(rate * index > 1){
-				index = 0;
-				vanishWord(progress, '#999999');
-				vanishWord(progress - 1, '#BBBBBB');
-				vanishWord(progress - 2, '#FFFFFF');
-
-				progress += 2;
-			}
-			index += 1;
-			setTimeout(vanishWords, 100);
-		}
-
-		var readCoentens = function(callback){
+		var readCoentens = function(){
 			console.log("start: read contents.");
-			$.getJSON("contents.json", {}, function(res){
-				$("#title").text(res['title']);
-				$("#contents").html(res['contents']);
-				console.log(res['contents']);
-				callback(res['contents']);
+			$.getJSON("news-list.json", {}, function(res){
+				items = res.map(function(x) {
+					console.log(x.title)
+					return "<li><a href='./contents.html?page=" + x.key + "'>" + x.title + "</a></li>"
+				})
+                                html = "<ul>" + items.join("") + "</ul>"
+				$("#items").html(html)
 			})
 			.success(function(json) {
 				console.log("success");
@@ -56,30 +33,8 @@
 			});
 		}
 
-		var restart = function(){
-			index = 0;
-			progress = 0;
-			words.each(function(){
-				$(this).css('color', 'black');
-			});
-			window.scrollTo( 0 , 0) ;
-		}
 
-		var initContents = function(contents){
-			const lines = $(contents).map((i, x) =>
-			$(x).text()
-			.split(" ")
-			.map((x) => "<span class='word'>" + x.trim() + "</span>")
-			.join("<span class='word'> </span>")
-		).map((i, x) => "<p>" + x + "</p>")
-		const text = Array.from(lines).reduce((r, x) => r + x);
-		$("#contents").html(text);
-		words = $(".word");
-		vanishWords();
-	}
-
-	$("#btn-restart").click(restart);
-	readCoentens(initContents);
+	readCoentens();
 
 });
 </script>
@@ -108,23 +63,10 @@ body {
 <body>
 	<div class="contents-card-wide mdl-card mdl-shadow--2dp">
 		<div class="mdl-card__title  mdl-color--light-blue-A200">
-			<h2 class="mdl-card__title-text" id="title"> </h2>
+			<h2 class="mdl-card__title-text" id="title">Breaking News</h2>
 		</div>
-		<div class="mdl-card__supporting-text" id="contents">
+		<div class="mdl-card__supporting-text" id="items">
 
-		</div>
-		<div class="mdl-card__actions mdl-card--border">
-			<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="btn-finish">
-				Finish
-			</a>
-			<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="btn-restart">
-				Restart
-			</a>
-		</div>
-		<div class="mdl-card__menu">
-			<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<i class="material-icons">share</i>
-			</button>
 		</div>
 	</div>
 
