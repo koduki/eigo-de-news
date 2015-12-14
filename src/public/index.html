@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex,nofollow" />
+	<meta name="viewport" content="width=340,initial-scale=1" />
+	<title>Simple English Reader</title>
+	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script>
+		$(function(){
+			var wpm = 150;
+			var rate = wpm / 60 / 10;
+			var index = 0;
+			var progress = 0;
+			var words = [];
+			
+			var vanishWord = function(pg, color){
+				if(pg >= 0) {
+					$(words[pg]).css('color', color);
+					$(words[pg + 1]).css('color', color);
+				}
+			}
+		 	var vanishWords = function(){
+				if(rate * index > 1){
+					index = 0;
+					vanishWord(progress, '#999999');
+					vanishWord(progress - 1, '#BBBBBB');
+					vanishWord(progress - 2, '#FFFFFF');
+
+					progress += 2;
+				}
+				index += 1;
+		 		setTimeout(vanishWords, 100);
+		 	}
+		 	
+		 	var readCoentens = function(callback){
+				console.log("start: read contents.");
+				$.getJSON("contents.json", {}, function(res){
+					$("#title").text(res['title']);
+					$("#contents").html(res['contents']);
+					console.log(res['contents']);
+					callback(res['contents']);
+				})
+				.success(function(json) {
+				    console.log("success");
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+				    console.log("error:" + textStatus);
+				    console.log("error-text:" + jqXHR.responseText);
+				})
+				.complete(function() {
+				    console.log("finish");
+				});
+		 	}
+		 	
+		 	var restart = function(){
+		 		index = 0;
+				progress = 0;
+		 		words.each(function(){
+		 			$(this).css('color', 'black');
+		 		});
+		 		window.scrollTo( 0 , 0) ;		 		
+		 	}
+		 	
+		 	var initContents = function(contents){
+		 		const lines = $(contents).map((i, x) => 
+		 			$(x).text()
+		 				.split(" ")
+		 				.map((x) => "<span class='word'>" + x.trim() + "</span>")
+		 				.join("<span class='word'> </span>")
+		 			).map((i, x) => "<p>" + x + "</p>")
+		 		const text = Array.from(lines).reduce((r, x) => r + x);
+ 		 		$("#contents").html(text);
+				words = $(".word");
+				vanishWords();
+		 	}
+
+		 	$("#btn-restart").click(restart);
+		 	readCoentens(initContents);
+
+		});
+	</script>
+	<style>
+		body {
+			word-wrap:break-word;
+		}
+		#contents {
+			font-size: 1.4rem;
+			padding:10px 10px 10px 10px;
+			color:black;
+			font-weight:100;
+		}
+		.demo-card-wide.mdl-card {
+		  width: 100%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  color: #fff;
+		  height: 176px;
+		}
+		.demo-card-wide > .mdl-card__menu {
+		  color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+	  <div class="mdl-card__title  mdl-color--light-blue-A200">
+	    <h2 class="mdl-card__title-text" id="title"> </h2>
+	  </div>
+	  <div class="mdl-card__supporting-text" id="contents">
+
+	  </div>
+	  <div class="mdl-card__actions mdl-card--border">
+	    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="btn-finish">
+	      Finish
+	    </a>
+	 	<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="btn-restart">
+	      Restart
+	    </a>
+	  </div>
+	  <div class="mdl-card__menu">
+	    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+	      <i class="material-icons">share</i>
+	    </button>
+	  </div>
+	</div>
+
+	<footer>
+	
+	</fotter>
+</body>
+</html>
+
