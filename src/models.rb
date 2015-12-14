@@ -4,7 +4,7 @@ class News
     @title = title
     @contents = contents
   end
-  
+
   def to_json
     require 'json'
     json = {"title" => @title, "contents" => @contents}
@@ -28,7 +28,7 @@ class NewsList
 
   def store
     require "pstore"
-    db = PStore.new("data.db")    
+    db = PStore.new("data.db")
     db.transaction do
       db["data"] = @data
     end
@@ -36,7 +36,7 @@ class NewsList
 
   def load
     require "pstore"
-    db = PStore.new("data.db")    
+    db = PStore.new("data.db")
     db.transaction do
       @data = db["data"]
     end

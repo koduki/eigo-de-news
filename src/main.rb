@@ -16,11 +16,8 @@ def crawl
 	title = html.title
 	contents = html.at("section.article-content").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
 
-	news = News.new(title, contents)
-	@newsList.add url, news
+	@newsList.add url, News.new(title, contents)
 	@newsList.store
-	#data = {title:title, contents:contents}
-	#puts JSON.generate(data)
 end
 
 crawl
