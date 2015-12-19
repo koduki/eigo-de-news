@@ -20,8 +20,10 @@ class Crawler
     urls.each do |url|
       html = @agent.get(url)
       title = html.title
-puts title
       contents = html.at("section.article-content").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
+
+      puts Time.new.to_s + "\t" + title
+
       @newsList.add url, News.new(title, contents)
     end
 
