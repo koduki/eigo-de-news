@@ -1,13 +1,24 @@
 $(function(){
-	var readCoentens = function(){
+	const wpm = 150;
+	const readCoentens = function(){
 		console.log("start: read contents.");
 		$.getJSON("news-list.json", {}, function(res){
-			items = res.map(function(x) {
-				console.log(x.title)
-				return "<li><a href='./contents.html?page=" + x.key + "'>" + x.title + "</a></li>"
+			const items = res.map(function(x) {
+				console.log(x.title);
+				
+				const time = (x.words_counts * 1.0 / wpm) * 60;
+				const minute = ("0" + parseInt(time / 60)).slice(-2);
+				const seconed = ( "0" + parseInt(time % 60)).slice(-2);
+				
+				const url = "./contents.html?page=" + x.key;
+				const text = x.title + "(<span>" + minute + ":" + seconed + "</span>)";
+				
+				const li = $("<li>").append();
+				const a = $("<a>").attr("href", url).html(text);
+				return li.append(a);
 			})
-			const html = "<ul>" + items.join("") + "</ul>";
-			$("#items").html(html);
+			const ul = $("<ul>").append(items);
+			$("#items").html(ul);
 		})
 		.success(function(json) {
 			console.log("success");
