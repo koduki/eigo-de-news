@@ -1,0 +1,25 @@
+body {
+	word-wrap:break-word;
+}
+
+#contents {
+	font-size: 1.4rem;
+	padding:10px 10px 10px 10px;
+	color:black;
+	font-weight:100;
+}
+
+#contents p {
+	font-size: 1.4rem;
+}
+
+.contents-card-wide.mdl-card {
+	width: 100%;
+}
+.contents-card-wide > .mdl-card__title {
+	color: #fff;
+	height: 176px;
+}
+.contents-card-wide > .mdl-card__menu {
+	color: #fff;
+}

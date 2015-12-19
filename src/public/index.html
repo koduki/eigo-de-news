@@ -4,61 +4,14 @@
 	<meta charset="UTF-8" />
 	<meta name="robots" content="noindex,nofollow" />
 	<meta name="viewport" content="width=340,initial-scale=1" />
-	<title>英語deニュース！</title>
+	<title>英語de読もう！</title>
 	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
 	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script>
-	$(function(){
-		var readCoentens = function(){
-			console.log("start: read contents.");
-			$.getJSON("news-list.json", {}, function(res){
-				items = res.map(function(x) {
-					console.log(x.title)
-					return "<li><a href='./contents.html?page=" + x.key + "'>" + x.title + "</a></li>"
-				})
-                                html = "<ul>" + items.join("") + "</ul>"
-				$("#items").html(html)
-			})
-			.success(function(json) {
-				console.log("success");
-			})
-			.error(function(jqXHR, textStatus, errorThrown) {
-				console.log("error:" + textStatus);
-				console.log("error-text:" + jqXHR.responseText);
-			})
-			.complete(function() {
-				console.log("finish");
-			});
-		}
 
-
-	readCoentens();
-
-});
-</script>
-<style>
-body {
-	word-wrap:break-word;
-}
-#contents {
-	font-size: 1.4rem;
-	padding:10px 10px 10px 10px;
-	color:black;
-	font-weight:100;
-}
-.contents-card-wide.mdl-card {
-	width: 100%;
-}
-.contents-card-wide > .mdl-card__title {
-	color: #fff;
-	height: 176px;
-}
-.contents-card-wide > .mdl-card__menu {
-	color: #fff;
-}
-</style>
+	<script src="js/index.js"></script>
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="contents-card-wide mdl-card mdl-shadow--2dp">
