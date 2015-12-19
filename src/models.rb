@@ -46,5 +46,6 @@ class NewsList
     db.transaction do
       @data = db["data"]
     end
+    @data = {} if data == nil
   end
 end
