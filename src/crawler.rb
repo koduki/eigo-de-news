@@ -19,9 +19,13 @@ class Crawler
     
     crawlers.each do |crawler|
       crawler.get_urls.each do |url|
-        contents = crawler.parse url
-        puts Time.new.to_s + "\t" + contents[:site] + "\t" + contents[:title]
-        @newsList.add url, News.new(contents[:title], contents[:body])
+        begin
+          contents = crawler.parse url
+          puts Time.new.to_s + "\t" + contents[:site] + "\t" + contents[:title]
+          @newsList.add url, News.new(contents[:title], contents[:body])
+        rescue => ex
+          puts ex.message
+        end
       end
   
       @newsList.store

@@ -36,7 +36,7 @@ class NewsList
     require "pstore"
     db = PStore.new("data.db")
     db.transaction do
-      db["data"] = @data
+      db["news"] = @data
     end
   end
 
@@ -44,8 +44,37 @@ class NewsList
     require "pstore"
     db = PStore.new("data.db")
     db.transaction do
-      @data = db["data"]
+      @data = db["news"]
     end
     @data = {} if data == nil
+  end
+end
+
+class History
+  attr_accessor :data
+  
+  def initialize
+    @data = []
+  end 
+  
+  def add(time, news_id)
+    @data << {time:time, news_id:news_id, timestamp:Time.new}
+  end
+  
+  def store
+    require "pstore"
+    db = PStore.new("data.db")
+    db.transaction do
+      db["histories"] = @data
+    end
+  end
+
+  def load
+    require "pstore"
+    db = PStore.new("data.db")
+    db.transaction do
+      @data = db["histories"]
+    end
+    @data = [] if data == nil
   end
 end
