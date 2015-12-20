@@ -4,6 +4,7 @@ $(function () {
 	var index = 0;
 	var progress = 0;
 	var words = [];
+	var start_time = 0;
 
 	var params = location.search.substring(1).split('&').map((x) => x.split('=')).reduce((r, x) => { r[x[0]] = x[1]; return r }, {});
 	var vanishWord = function (pg, color) {
@@ -30,16 +31,16 @@ $(function () {
 		$.getJSON(url, data, function (res) {
 			callback(res)
 		})
-			.success(function (json) {
-				console.log("success");
-			})
-			.error(function (jqXHR, textStatus, errorThrown) {
-				console.log("error:" + textStatus);
-				console.log("error-text:" + jqXHR.responseText);
-			})
-			.complete(function () {
-				console.log("finish");
-			});
+		.success(function (json) {
+			console.log("success");
+		})
+		.error(function (jqXHR, textStatus, errorThrown) {
+			console.log("error:" + textStatus);
+			console.log("error-text:" + jqXHR.responseText);
+		})
+		.complete(function () {
+			console.log("finish");
+		});
 	}
 
 	var readCoentens = function (callback) {
@@ -58,14 +59,19 @@ $(function () {
 			$(this).css('color', 'black');
 		});
 		window.scrollTo(0, 0);
+		start_time = new Date().getTime();
 	}
 
 	const finish = function () {
-		const time = 1234;
+		const end_time = new Date().getTime();
+		const time = parseInt((end_time - start_time) / 1000);
 		console.log("start finish");
 		rpc("post_histories/" + params.page + "/" + time, {}, function (res) {
 			console.log("end finish");
-			alert("success:" + time);
+						
+			const minute = ("0" + parseInt(time / 60)).slice(-2);
+			const seconed = ( "0" + parseInt(time % 60)).slice(-2);
+			alert("Finish: " + minute + ":" + seconed);
 		});
 	}
 
@@ -80,6 +86,7 @@ $(function () {
 		const text = Array.from(lines).reduce((r, x) => r + x);
 		$("#contents").html(text);
 		words = $(".word");
+		start_time = new Date().getTime();
 		vanishWords();
 	}
 

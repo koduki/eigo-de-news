@@ -10,8 +10,10 @@ $(function(){
 				const minute = ("0" + parseInt(time / 60)).slice(-2);
 				const seconed = ( "0" + parseInt(time % 60)).slice(-2);
 				
+				const wpm = parseInt(time / x.new_words) * 60
+				
 				const url = "./contents.html?page=" + x.news_id;
-				const text = x.news_title + "(<span>" + minute + ":" + seconed + "</span>)";
+				const text = x.news_title + "(<span>wpm:" + wpm + "</span>)";
 				
 				const d = new Date(x.timestamp);
 				var timestamp = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + " ";
