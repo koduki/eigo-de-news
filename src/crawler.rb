@@ -14,7 +14,8 @@ class Crawler
   def crawl
     crawlers = [
       MashableCrawler.new(@agent),
-      AquariumCrawler.new(@agent)
+      AquariumCrawler.new(@agent),
+      InfoqCrawler.new(@agent)
     ]
 
     crawlers.each do |crawler|
@@ -68,6 +69,29 @@ class AquariumCrawler
     html = @agent.get(url)
     title = html.title
     body = html.at(".entry-body").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
+    {title:title, body:body, site:@site}
+  end
+end
+
+class InfoqCrawler
+  def initialize agent
+    @agent = agent
+    @site = "Info Q"
+  end
+
+  def get_urls
+    html = @agent.get("http://www.infoq.com/")
+     html.at("#mostPopularSection")
+        .search(".h3news a @href")
+        .find_all{|x|!x.text.match /theCommentsSection/ }
+        .map{|x|"http://www.infoq.com" + x.text}
+  end
+
+  def parse url
+    html = @agent.get(url)
+    title = html.title
+
+    body = html.at(".text_info").search(".//p").map{|x| "<p>#{x.text}</p>" }.join
     {title:title, body:body, site:@site}
   end
 end
