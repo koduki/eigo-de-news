@@ -52,15 +52,15 @@ end
 
 class History
   attr_accessor :data
-  
+
   def initialize
     @data = []
-  end 
-  
+  end
+
   def add(time, news_id)
     @data << {time:time, news_id:news_id, timestamp:Time.new}
   end
-  
+
   def store
     require "pstore"
     db = PStore.new("data.db")

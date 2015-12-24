@@ -1,11 +1,11 @@
 require 'mechanize'
-require './models.rb'
+require_relative './models.rb'
 
 class Crawler
   def initialize
     @newsList = NewsList.new
     @newsList.load
-    
+
     @agent = Mechanize.new
     @agent.follow_meta_refresh = true
     @agent.user_agent_alias = 'Windows IE 9'
@@ -16,7 +16,7 @@ class Crawler
       MashableCrawler.new(@agent),
       AquariumCrawler.new(@agent)
     ]
-    
+
     crawlers.each do |crawler|
       crawler.get_urls.each do |url|
         begin
@@ -27,7 +27,7 @@ class Crawler
           puts ex.message
         end
       end
-  
+
       @newsList.store
     end
   end
@@ -38,12 +38,12 @@ class MashableCrawler
     @agent = agent
     @site = "Mashable"
   end
-  
+
   def get_urls
     html = @agent.get("http://feeds.mashable.com/Mashable")
     html.search('link').map{|x| x.text}[1..5]
   end
-  
+
   def parse url
     html = @agent.get(url)
     title = html.title
@@ -57,13 +57,13 @@ class AquariumCrawler
     @agent = agent
     @site = "The Aquarium"
   end
-  
+
   def get_urls
     require 'nokogiri'
     html = Nokogiri::HTML.parse(@agent.get("http://blogs.oracle.com/theaquarium/feed/entries/atom").body)
     html.search("//entry/link/@href").map{|x| x.value }[1..5]
   end
-  
+
   def parse url
     html = @agent.get(url)
     title = html.title

@@ -1,0 +1,7 @@
+web:
+  build: .
+  command: ruby src/app.rb -e production
+  volumes:
+    - /c/Users/koduki/git/koduki/eigo-de-news:/app
+  ports:
+    - "4567:4567"

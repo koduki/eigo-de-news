@@ -1,7 +1,8 @@
 require 'sinatra'
 require 'json'
-require './models.rb'
 require 'sinatra/reloader' if development?
+
+require_relative "./models.rb"
 
 get '/contents/:key' do
   newsList = NewsList.new
@@ -23,22 +24,22 @@ end
 get '/post_histories/:key/:time' do
   history = History.new
   history.load
-  
+
   news = params['key']
   history.add(params['time'], news)
   history.store
-  
+
   JSON.generate({status:"success"})
 end
 
 get '/histories' do
   histories = History.new
   histories.load
-  
+
   newsList = NewsList.new
   newsList.load
-  
-  items = histories.data.map{|x| 
+
+  items = histories.data.map{|x|
     news = newsList.get(x[:news_id])
     unless news == nil
       x[:time] = x[:time].to_i
