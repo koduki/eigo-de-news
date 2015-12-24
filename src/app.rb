@@ -48,6 +48,7 @@ get '/histories' do
     end
     x
   }.find_all{|x| x[:news_title] != nil}
+  .reverse
 
   JSON.generate(items)
 end
