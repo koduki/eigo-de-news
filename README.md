@@ -30,3 +30,9 @@ PS$ docker-compose up
 ```
 http://192.168.xxx.xxx:4567/index.html
 ```
+
+### 4. REPL
+
+```[bash]
+PS$ docker run -it --rm -v /c/Users/koduki/git/koduki/eigo-de-news:/app koduki/eigodenews irb
+```
