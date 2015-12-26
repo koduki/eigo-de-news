@@ -34,7 +34,7 @@ class NewsList
 
   def store
     require "pstore"
-    db = PStore.new("data.db")
+    db = PStore.new("db/data.db")
     db.transaction do
       db["news"] = @data
     end
@@ -42,7 +42,7 @@ class NewsList
 
   def load
     require "pstore"
-    db = PStore.new("data.db")
+    db = PStore.new("db/data.db")
     db.transaction do
       @data = db["news"]
     end
@@ -63,7 +63,7 @@ class History
 
   def store
     require "pstore"
-    db = PStore.new("data.db")
+    db = PStore.new("db/data.db")
     db.transaction do
       db["histories"] = @data
     end
@@ -71,7 +71,7 @@ class History
 
   def load
     require "pstore"
-    db = PStore.new("data.db")
+    db = PStore.new("db/data.db")
     db.transaction do
       @data = db["histories"]
     end
