@@ -1,0 +1,7 @@
+app:
+  extends:
+    file: commons.yml
+    service: base
+  image: koduki/eigo-de-news:latest
+  volumes:
+    - ./db:/app/db

@@ -1,0 +1,4 @@
+base:
+  command: ruby src/app.rb -e production
+  ports:
+    - "4567:4567"

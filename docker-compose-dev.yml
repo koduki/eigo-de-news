@@ -1,0 +1,7 @@
+app:
+  extends:
+    file: commons.yml
+    service: base
+  build: .
+  volumes:
+    - /c/Users/koduki/git/koduki/eigo-de-news:/app
