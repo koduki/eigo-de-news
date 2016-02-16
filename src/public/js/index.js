@@ -11,14 +11,18 @@ $(function(){
 				const seconed = ( "0" + parseInt(time % 60)).slice(-2);
 				
 				const url = "./contents.html?page=" + x.key;
-				const text = x.title + "(<span>" + minute + ":" + seconed + "</span>)";
+				const text = x.title;
 				
-				const li = $("<li>").append();
-				const a = $("<a>").attr("href", url).html(text);
-				return li.append(a);
+				const item = $("<div class='item-card mdl-card mdl-shadow--2dp'>").append();
+				const contents = $("<div style='display: inline;width:100px;height:100px'>")
+                                    .append($("<div>").append($("<a>").attr("href", url).html(text)))
+                                    .append($("<span>" + minute + ":" + seconed + "</span>"))
+                                    ;
+
+				return item.append(contents);
 			})
-			const ul = $("<ul>").append(items);
-			$("#items").html(ul);
+
+			$("#items").html(items);
 		})
 		.success(function(json) {
 			console.log("success");

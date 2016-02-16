@@ -23,3 +23,22 @@ body {
 .contents-card-wide > .mdl-card__menu {
 	color: #fff;
 }
+
+.item-card.mdl-card {
+    color:white;
+	width: 100%;
+    height: 96px;
+    min-height: 96px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    background-image: url(http://tse1.mm.bing.net/th?&id=OIP.M2afa28623dddcc8cab541e0b9e261982o0&w=198&h=198&c=0&pid=1.9&rs=0&p=0);  
+    background-repeat   : no-repeat;
+    background-size:100% 96px;
+}
+.item-card.mdl-card a:link{
+    color:white;
+}
+.item-card.mdl-card a:visited{
+    color:white;
+}
