@@ -10,10 +10,11 @@ How to use
 
 ```bash
 # for Windows
-PS$ docker-compose -f ./docker-compose-dev.yml run -d app ruby /src/main.rb
+
+PS$ docker-compose -f ./docker-compose-dev.yml run -d app ruby src/main.rb
 
 # for Linux
-$ docker-compose -f ./docker-compose-prod.yml run app ruby /src/main.rb
+$ docker-compose -f ./docker-compose-prod.yml run app ruby src/main.rb
 ```
 
 ### 2. run application server
